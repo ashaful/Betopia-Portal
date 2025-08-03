@@ -1,0 +1,185 @@
+<odoo>
+    <template id="portal_employees_template" name="Portal Employees">
+        <t t-call="portal.portal_layout">
+            <t t-set="user" t-value="request.env.user" />
+            <t t-set="fin_not_count" t-value="0" />
+
+            <t t-if="user.scm_department">
+                <t t-set="fin_not_count" t-value="request.env['bd.notification'].sudo().search_count([
+            ('department', '=', 'finance'),
+            ('mark_as_read', '=', False),
+            ])" />
+            </t>
+
+            <title>Employees</title>
+
+            <!-- Styles -->
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+            <link href="/sales_portal_bdcalling/static/css/employees.css?v=1" rel="stylesheet" />
+            <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+            <div class="d-flex">
+                <!-- Sidebar -->
+                <div class="sidebar d-flex flex-column bg-light border-right" id="sidebar" style="min-height: 100vh; width: 250px;">
+                    <div class="text-center py-3" id="logoContainer" style="display: none;">
+                        <img src="/sales_portal_bdcalling/static/img/navigation-image-2.png" alt="Logo" class="img-fluid" style="max-width: 185px;" />
+                    </div>
+                    <ul class="nav flex-column pl-4 pt-4" style="width:250px; max-width: 250px;">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/bdcalling/dashboard">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard </a>
+                        </li>
+                        <t t-if="user.operation_man == False">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/sale/dashboard">
+                                    <i class="fas fa-chart-line"></i> Sales </a>
+                            </li>
+                        </t>
+                        <t t-if="not user.sale_leader and not user.sales_man">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/operation_dashboard">
+                                    <i class="fas fa-cogs"></i> Operation </a>
+                            </li>
+                        </t>
+                        <t t-if="not user.operation_man and not user.sales_man">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/portal/requisition/dashboard">
+                                    <i class="fas fa-clipboard-list"></i> Requisition </a>
+                            </li>
+                        </t>
+                        <t t-if="not user.operation_man and not user.sales_man">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/portal/employees">
+                                    <i class="fas fa-users"></i> Employee Information </a>
+                            </li>
+                        </t>
+                        <hr style="border: 1px solid #000; margin: 10px 0; width: 90%; background-color: #000;" />
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/web/session/logout">
+                                <i class="fas fa-sign-out-alt"></i> Logout </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Main Content -->
+                <div class="flex-grow-1">
+                    <nav class="navbar navbar-light bg-white border-bottom">
+                        <div class="container-fluid px-2">
+                            <div class="d-flex align-items-center w-100">
+                                <a href="javascript:void(0);" onclick="window.history.back();">
+                                    <img src="/sales_portal_bdcalling/static/img/header-icon-arrow-left.png" alt="" class="img-fluid mr-3" style="width: 20px; height: 20px;" />
+                                </a>
+                                <div class="position-relative flex-grow-1 mx-2 search-container">
+                                    <form method="get">
+                                        <input type="text" name="search_value" class="form-control border pl-5" placeholder="Search" t-att-value="search_value" />
+                                        <i class="fas fa-search position-absolute" style="top: 55%; left: 20px; transform: translateY(-50%); color: #aaa;"></i>
+
+                                    </form>
+
+                                </div>
+
+                                <!-- Notification and User Profile -->
+                                <div class="d-flex align-items-center">
+                                    <div class="position-relative ml-3">
+                                        <a href="/portal/notifications" class="text-decoration-none">
+                                            <i class="far fa-bell text-muted" style="font-size: 20px;"></i>
+                                            <span class="position-absolute badge badge-danger rounded-circle" style="top: -5px; right: -5px; font-size: 10px; min-width: 18px; height: 18px; line-height: 14px; padding: 2px;" t-esc="fin_not_count if fin_not_count else '0'">0</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <button class="navbar-toggler border-0 p-0 ml-3 d-md-none" type="button" onclick="toggleSidebar()">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class=" p-2 px-3">
+                        <div class="rounded  p-4 mt-4" style="background: #FAFAFA;">
+                            <div class="table-container ma">
+                                <div class="table-responsive bg-white rounded shadow-sm" style="max-height: 700px; overflow-y: auto;">
+                                    <table class="table table-bordered table-hover text-center">
+                                        <thead class="table-light sticky" style="position: sticky; top: 0; background-color: #f8f9fa; z-index: 10;  font-size: 12px;">
+                                            <tr>
+                                                <th>Employee ID</th>
+                                                <th>Employee Name</th>
+                                                <th>Department</th>
+                                                <th>Job Position</th>
+                                                <th>Assign Team</th>
+                                                <th>Role</th>
+                                                <th>Minimum Goal</th>
+                                                <th>Work Mobile Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 10px;">
+                                            <t t-foreach="employees" t-as="emp">
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="emp.barcode" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="emp.name" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="emp.department_id.name" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="emp.job_id.name" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="emp.assign_team_id.name" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="emp.role_id.name" />
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="emp.minimum_target" />
+                                                    </td>
+
+                                                    <td>
+                                                        <t t-esc="emp.mobile_phone" />
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pager -->
+                        <!-- <div class="o_portal_pager text-center mt-3 mb-3">
+                          <nav>
+                                <ul class="pagination justify-content-center">
+                                    <t t-foreach="range(1, total_pages + 1)" t-as="p">
+                                        <li t-attf-class="page-item #{'active' if p == page else ''}">
+                                            <a t-att-href="'?search_value=' + str(search_value or '') + '&amp;page=' + str(p)" class="page-link">
+                                                <t t-esc="p"/>
+                                            </a>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </nav>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                function toggleSidebar() {
+                    document.getElementById('sidebar').classList.toggle('active');
+                    document.getElementById('sidebarOverlay').classList.toggle('active');
+                    const logo = document.getElementById('logoContainer');
+                    if (logo.style.display === "none") {
+                        logo.style.display = "block";
+                    } else {
+                        logo.style.display = "none";
+                    }
+                }
+            </script>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,10 @@
+xlrd
+
+
+Label : Total Operation 
+Field : total_sales
+Model: employee.kpi
+Type: float 
+Context: {}
+Required : True 
+

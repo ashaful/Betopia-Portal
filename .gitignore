@@ -1,0 +1,20 @@
+# Odoo specific
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+
+# Database
+*.sql
+*.db
+
+# Config files (if they contain sensitive info)
+# odoo.conf  

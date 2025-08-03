@@ -1,0 +1,274 @@
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+}
+
+/* Base styles */
+body {
+  overflow-x: hidden;
+}
+
+.nav-item:hover {
+  background-color: #1a5eed;
+  border-radius: 4px;
+}
+
+.nav-item:hover .nav-link,
+.nav-item.active .nav-link {
+  color: white !important;
+  background-color: #1c1c1c;
+}
+
+/* Mobile sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100vh;
+    transition: left 0.3s ease;
+    z-index: 1050;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  .main-content {
+    margin-left: 0px;
+  }
+
+  #operation_dashboard > .flex-grow-1,
+  #sale_dashboard > .flex-grow-1 {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .navbar {
+    padding: 0.5rem;
+  }
+
+  .search-container {
+    width: 100% !important;
+    max-width: none;
+    margin: 0 0.5rem;
+  }
+
+  .navbar .d-flex.align-items-center.ml-auto {
+    margin-left: 0 !important;
+  }
+
+  .navbar .ml-2 {
+    display: none;
+  }
+
+  .p-2,
+  .px-3 {
+    padding: 0.5rem !important;
+  }
+
+  .d-flex.justify-content-between.align-items-center {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .d-flex.justify-content-between.align-items-center > div:first-child {
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .d-flex.justify-content-between > div:last-child {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .d-flex.justify-content-between button {
+    width: 100%;
+    margin-right: 0 !important;
+  }
+
+  .filter-container {
+    width: 100% !important;
+    max-width: none;
+  }
+
+  .row.mb-4 > div {
+    margin-bottom: 1rem;
+    width: 100% !important;
+  }
+
+  .card-body {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .row.mb-4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .p-4 {
+    padding: 1rem !important;
+  }
+
+  h1 {
+    font-size: 1rem;
+  }
+
+  .d-flex.justify-content-between .d-flex {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Table responsiveness */
+.table-container {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #afafaf transparent;
+  max-width: 100%;
+  display: block !important;
+  width: 100% !important;
+  border-radius: 0.25rem;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #afafaf;
+  border-radius: 4px;
+}
+
+.table {
+  width: auto;
+  min-width: 100%;
+  table-layout: auto;
+  margin-bottom: 0 !important;
+}
+
+.table th,
+.table td {
+  white-space: nowrap;
+  vertical-align: middle;
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 10;
+}
+
+/* Layout containers */
+.my-4,
+.bg-white.rounded.shadow-sm {
+  overflow: visible !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.main-content {
+  margin-left: 250px;
+  overflow: hidden;
+}
+
+.sidebar {
+  min-height: 100vh;
+  width: 250px;
+  position: absolute;
+}
+
+/* Pagination */
+@media (max-width: 576px) {
+  .o_portal_pager {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .o_portal_pager .page-item {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  font-weight: 500;
+}
+
+/* Card */
+.card {
+  height: 100%;
+}
+
+.card:hover {
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Sorting */
+.sortable {
+  cursor: pointer;
+  position: relative;
+}
+
+.sortable:after {
+  content: "↕";
+  position: absolute;
+  right: 8px;
+  opacity: 0.5;
+}
+
+.sortable.sorted-asc:after {
+  content: "↑";
+  opacity: 1;
+}
+
+.sortable.sorted-desc:after {
+  content: "↓";
+  opacity: 1;
+}
+
+/* Fixed and tab spacing */
+.fixed {
+  width: 20%;
+}
+
+.tab-width {
+  width: 15px;
+}

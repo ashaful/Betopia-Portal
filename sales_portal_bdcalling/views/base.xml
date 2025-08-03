@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="portal_my_home" inherit_id="portal.portal_my_home">
+            <xpath expr="//div[@id='portal_common_category']" position="before">
+                <script type="text/javascript">
+            window.location.href = "/bdcalling/dashboard";
+                </script>
+            </xpath>
+        </template>
+    </data>
+</odoo>
